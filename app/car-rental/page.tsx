@@ -1,10 +1,9 @@
 import TopRatedVehicles from "@/components/car-rental/top-rated-vehicles";
 import Hero from "@/components/shared/hero";
-import StayFeatures from "@/components/shared/stay-features";
 import NewsletterSignup from "@/components/stay/news-letter-signup";
 import SponsoredFeatures from "@/components/stay/sponsored-feature";
 
-export default function StayPage() {
+export default function CarRentalPage() {
     return (<>        
         <Hero
             backgroundImage="/assets/images/car-rental/car-rental-bg.avif" 
