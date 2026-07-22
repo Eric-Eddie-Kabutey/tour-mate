@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
 import AuthModal from "../auth/auth-modal";
+import ProviderInfoModal from "../provider-onboarding/provider-inf-modal";
 
 interface Props {
     isScrolled: boolean;
@@ -13,6 +14,7 @@ export default function MobileNavbar({ isScrolled }: Props) {
     // Setup states
     const [ isAuthOpen, setIsAuthOpen ] = useState(false);
     const [ authTab, setAuthTab ] = useState<"signin" | "signup">("signin");
+    const [ isProviderModalOpen, setIsProviderModalOpen ] = useState(false);
 
     // Helper functions to open specific tabs
     const openSignIn = () => { setAuthTab("signin"); setIsAuthOpen(true); };
@@ -113,7 +115,10 @@ export default function MobileNavbar({ isScrolled }: Props) {
                                     </div>
     
                                     {/* Provider Button */}
-                                    <button className="w-full py-2 mt-2 flex items-center justify-center space-x-2 text-sm font-medium border border-gray-200 rounded-md hover:bg-gray-50">
+                                    <button
+                                        className="w-full py-2 mt-2 flex items-center justify-center space-x-2 text-sm font-medium border border-gray-200 rounded-md hover:bg-gray-50"
+                                        onClick={() => setIsProviderModalOpen(true)} 
+                                    >
                                         <Image src="/assets/icons/briefcase.svg" alt="Provider" width={16} height={16} />
                                         <span>Become a Provider</span>
                                     </button>
@@ -129,6 +134,12 @@ export default function MobileNavbar({ isScrolled }: Props) {
                 onClose={() => setIsAuthOpen(false)}
                 initialTab={authTab}
                 />
+
+            {/* Render Modal */}
+            <ProviderInfoModal
+                isOpen={isProviderModalOpen}
+                onClose={() => setIsProviderModalOpen(false)}
+            />
             
         </>
     

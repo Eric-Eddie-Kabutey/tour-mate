@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthModal from "@/components/auth/auth-modal";
 import { useState } from "react";
+import ProviderInfoModal from "../provider-onboarding/provider-inf-modal";
 
 interface Props {
   isScrolled: boolean;
@@ -14,6 +15,7 @@ export default function DesktopNavbar({ isScrolled }: Props) {
   // Setup states
   const [ isAuthOpen, setIsAuthOpen ] = useState(false);
   const [ authTab, setAuthTab ] = useState<"signin" | "signup">("signin");
+  const [ isProviderModalOpen, setIsProviderModalOpen ] = useState(false);
 
   // Helper functions to open specific tabs
   const openSignIn = () => { setAuthTab("signin"); setIsAuthOpen(true); };
@@ -44,10 +46,17 @@ export default function DesktopNavbar({ isScrolled }: Props) {
         </Link>
 
         <div className={`flex items-center space-x-6 text-sm font-medium transition-colors ${subTextColor}`}>
-          <Link href="#" className="flex items-center space-x-2 hover:text-tour-green transition">
+          {/* <Link href="#" className="flex items-center space-x-2 hover:text-tour-green transition">
             <Image src="/assets/icons/provider.avif" alt="Provider" width={20} height={20} className={`w-5 h-5 transition-all ${iconFilter}`} />
             <span>Become a Provider</span>
-          </Link>
+            </Link> */}
+            <button
+              onClick={() => setIsProviderModalOpen(true)}
+              className="flex items-center space-x-2 hover:text-tour-green transition"
+            >
+              <Image src="/assets/icons/provider.avif" alt="Provider" width={20} height={20} className="w-5 h-5" />
+              <span>Become a Provider</span>
+            </button>
           <Link href="#" className="flex items-center space-x-2 hover:text-tour-green transition">
             <Image src="/assets/icons/kiddos.avif" alt="Carry Kiddos" width={20} height={20} className={`w-5 h-5 transition-all ${iconFilter}`} />
             <span>Carry Kiddos</span>
@@ -90,11 +99,17 @@ export default function DesktopNavbar({ isScrolled }: Props) {
     </motion.nav>
       
       {/* // Render Modal outside the nav flow */}
-  <AuthModal
+    <AuthModal
     isOpen={isAuthOpen}
     onClose={() => setIsAuthOpen(false)}
     initialTab={authTab}
-  />
+      />
+      
+      {/* Render Modal */}
+      <ProviderInfoModal
+        isOpen={isProviderModalOpen}
+        onClose={() => setIsProviderModalOpen(false)}
+      />
   </>
   );
 }
