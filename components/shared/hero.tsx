@@ -7,7 +7,7 @@ import Link from "next/link";
 // Extracted categories data
 export const categories = [
     { name: "Stays", icon: "/assets/icons/stay.avif", href: "/stays" },
-    { name: "Car Rental", icon: "/assets/icons/car-rental.avif", href: "/cars" },
+    { name: "Car Rental", icon: "/assets/icons/car-rental.avif", href: "/car-rental" },
     { name: "Events", icon: "/assets/icons/events.avif", href: "/events" },
     { name: "Airport Pickup", icon: "/assets/icons/airport-pickup.avif", href: "/airport-pickup" },
     { name: "Tours", icon: "/assets/icons/tours.avif", href: "/tours" },
