@@ -3,14 +3,14 @@ import Hero from "@/components/shared/hero";
 import NewsletterSignup from "@/components/stay/news-letter-signup";
 import SponsoredFeatures from "@/components/stay/sponsored-feature";
 
-export default function CarRentalPage() {
+export default function ShopsPage() {
     return (<>        
         <Hero
-            backgroundImage="/assets/images/car-rental/car-rental-bg.avif" 
+            backgroundImage="/assets/images/shops/shops-bg.avif" 
             subtitle="Your African Journey, Your Way"
-            activeCategory="Car Rental" // Highlights active page!
-            searchPlaceholder="Where do you want to stay?"
-            searchDropdowns={[ "Brand", "Model", "Price", "Transmission" ]}
+            activeCategory="Shops" // Highlights active page!
+            searchPlaceholder="City or neighborhood"
+            searchDropdowns={[ "Category", "Rating", "Price" ]}
         />
 
         {/* Top Rated Vehicles: Reusable */}
