@@ -1,4 +1,4 @@
-import FloatingCategories from "@/components/home/floating-categories";
+import FloatingCategories from "@/components/shared/floating-categories";
 import GuidedTours from "@/components/home/guide-tours";
 import Hero from "@/components/home/hero";
 import AppDownload from "@/components/home/app-download";
@@ -14,9 +14,7 @@ import FindAffordable from "@/components/home/find-affordable";
 
 export default function Home() {
   return (
-    <>
-      <FloatingCategories /> {/* floating navbar */}
-
+    <>      
       <Hero />
 
       <PromoMarquee />
