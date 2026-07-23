@@ -1,6 +1,6 @@
 import FloatingCategories from "@/components/shared/floating-categories";
 import GuidedTours from "@/components/home/guide-tours";
-import Hero from "@/components/home/hero";
+import Hero from "@/components/shared/hero";
 import AppDownload from "@/components/home/app-download";
 import EarnWithUs from "@/components/home/earn-with-us";
 import PromoMarquee from "@/components/home/promo-marquee";
@@ -15,7 +15,13 @@ import FindAffordable from "@/components/home/find-affordable";
 export default function Home() {
   return (
     <>      
-      <Hero />
+      <Hero
+        backgroundImage="/assets/images/hero-bg.jpg" 
+        subtitle="Luxury hotels, card rent, tours, flights,  and local experience seamlessly connected."
+        activeCategory="home" // Highlights the Stays icon!
+        searchPlaceholder="Where do you want to stay?"
+        searchDropdowns={[ "Property type", "Price", "Amenities" ]}
+      />
 
       <PromoMarquee />
 

@@ -1,7 +1,7 @@
 import TopRatedVehicles from "@/components/car-rental/top-rated-vehicles";
 import Hero from "@/components/shared/hero";
-import NewsletterSignup from "@/components/stay/news-letter-signup";
-import SponsoredFeatures from "@/components/stay/sponsored-feature";
+import NewsletterSignup from "@/components/stays/news-letter-signup";
+import SponsoredFeatures from "@/components/stays/sponsored-feature";
 
 export default function RestaurantsPage() {
     return (<>        
