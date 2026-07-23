@@ -84,7 +84,7 @@ export default function Hero({
     };
 
     return (
-        <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-tour-darker-green overflow-hidden pt-24 pb-12">
+        <div id="main-hero-section" className="relative w-full min-h-screen flex flex-col items-center justify-center bg-tour-darker-green overflow-hidden pt-24 pb-12">
             {/* Dynamic Background Image & Gradient Overlay */}
             <div
                 className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700"

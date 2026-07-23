@@ -27,7 +27,7 @@ export default function MobileNavbar({ isScrolled }: Props) {
         <>
             <div className="lg:hidden">
                 {/* Mobile Header Bar */}
-                <div className="flex items-center justify-between px-4 py-4 border-b relative z-50">
+                <div className="flex items-center justify-between px-4 py-4 relative z-50">
                     <div className="flex items-center space-x-2">
                         <div className="w-6 h-6 bg-tour-green rounded-full rounded-br-none flex items-center justify-center">
                             <div className="w-2 h-2 bg-tour-white rounded-full" />
