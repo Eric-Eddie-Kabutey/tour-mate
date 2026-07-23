@@ -73,7 +73,7 @@ export default function DesktopNavbar({ isScrolled }: Props) {
   const textColor = isScrolled ? "text-gray-900" : "text-tour-white";
   const subTextColor = isScrolled ? "text-gray-700 hover:text-tour-green" : "text-gray-200 hover:text-white";
   const iconFilter = isScrolled ? "" : "brightness-0 invert"; // Makes black SVGs white
-  const buttonBorder = isScrolled ? "border-gray-200 hover:bg-gray-50" : "border-white/30 hover:bg-white/10 text-white";
+  const buttonBorder = isScrolled ? " hover:bg-gray-50" : " hover:bg-white/10 text-white";
 
   return (
     <>
@@ -81,7 +81,7 @@ export default function DesktopNavbar({ isScrolled }: Props) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="hidden lg:flex items-center justify-between px-8 py-4  border-b z-50 relative"
+      className="hidden lg:flex items-center justify-between px-8 py-4 z-50 relative"
     >
       {/* Left side: Logo and Links */}
       <div className="flex items-center space-x-8">
