@@ -79,24 +79,35 @@ export default function Hero({
                     variants={containerVariants}
                     initial="hidden"
                     animate="show"
-                    className="flex flex-wrap justify-center gap-4 md:gap-6 mb-12"
+                    // UPDATE 1: Use a 4-column grid on mobile, and flex on desktop
+                    className="grid grid-cols-4 gap-y-5 gap-x-2 sm:flex sm:flex-wrap sm:justify-center md:gap-6 mb-10 md:mb-12 w-full px-1"
                 >
                     {categories.map((cat, idx) => {
                         const isActive = activeCategory === cat.name;
 
                         return (
-                            <Link href={cat.href} key={idx}>
+                            <Link href={cat.href} key={idx} className="flex justify-center">
                                 <motion.div
                                     variants={itemVariants}
-                                    className="flex flex-col items-center gap-2 group cursor-pointer"
+                                    className="flex flex-col items-center gap-1.5 md:gap-2 group cursor-pointer text-center"
                                 >
-                                    <div className={`w-14 h-14 md:w-16 md:h-16 backdrop-blur-md rounded-2xl flex items-center justify-center transition duration-300 ${isActive
+                                    {/* UPDATE 2: Scaled down dimensions for mobile (w-12 h-12) to fit the grid */}
+                                    <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 backdrop-blur-md rounded-[14px] md:rounded-2xl flex items-center justify-center transition duration-300 ${isActive
                                             ? "bg-white/20 border-2 border-tour-green shadow-[0_0_15px_rgba(5,156,28,0.5)] scale-105"
                                             : "bg-white/10 border border-white/10 group-hover:bg-white/20"
                                         }`}>
-                                        <Image src={cat.icon} alt={cat.name} width={32} height={32} className="w-8 h-8 object-contain drop-shadow-md" />
+                                        <Image
+                                            src={cat.icon}
+                                            alt={cat.name}
+                                            width={32}
+                                            height={32}
+                                            // UPDATE 3: Smaller icons on mobile (w-6 h-6)
+                                            className="w-6 h-6 md:w-8 md:h-8 object-contain drop-shadow-md"
+                                        />
                                     </div>
-                                    <span className={`text-xs md:text-sm font-medium transition-colors ${isActive ? "text-tour-green font-bold" : "text-tour-white"
+
+                                    {/* UPDATE 4: Smaller text on mobile (text-[10px]) and truncate long names */}
+                                    <span className={`text-[10px] sm:text-xs md:text-sm font-medium transition-colors whitespace-nowrap tracking-tight ${isActive ? "text-tour-green font-bold" : "text-tour-white"
                                         }`}>
                                         {cat.name}
                                     </span>

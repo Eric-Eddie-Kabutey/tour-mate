@@ -2,16 +2,17 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, Car, Calendar, CarTaxiFront, Compass, ShoppingBag, Plane, Wine } from "lucide-react";
+import Link from "next/link";
 
 const categories = [
-    { name: "Stays", icon: Home },
-    { name: "Car Rental", icon: Car },
-    { name: "Events", icon: Calendar },
-    { name: "Airport Pickup", icon: CarTaxiFront },
-    { name: "Tours", icon: Compass },
-    { name: "Shops", icon: ShoppingBag },
-    { name: "Flights", icon: Plane },
-    { name: "Restaurants", icon: Wine },
+    { name: "Stays", icon: Home, url: "/stays" },
+    { name: "Car Rental", icon: Car, url: "/car-rental" },
+    { name: "Events", icon: Calendar, url: "/events" },
+    { name: "Airport Pickup", icon: CarTaxiFront, url: "/airport-pickup" },
+    { name: "Tours", icon: Compass, url: "/tours" },
+    { name: "Shops", icon: ShoppingBag, url: "/shops" },
+    { name: "Flights", icon: Plane, url: "/flights" },
+    { name: "Restaurants", icon: Wine, url: "/restaurants" },
 ];
 
 export default function FloatingCategories() {
@@ -51,15 +52,16 @@ export default function FloatingCategories() {
                         {categories.map((cat, index) => {
                             const Icon = cat.icon;
                             return (
-                                <button
+                                <Link
                                     key={index}
+                                    href={cat.url}
                                     className="flex flex-col items-center justify-center space-y-1.5 group min-w-[72px]"
                                 >
                                     <Icon className="w-6 h-6 text-gray-600 group-hover:text-tour-green transition-colors" strokeWidth={1.5} />
                                     <span className="text-[11px] font-medium text-gray-500 group-hover:text-tour-green transition-colors whitespace-nowrap">
                                         {cat.name}
                                     </span>
-                                </button>
+                                </Link>
                             );
                         })}
                     </div>
