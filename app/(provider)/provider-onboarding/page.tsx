@@ -1,172 +1,261 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, ChevronDown } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
+import { Check, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const countries = [
-    { name: "Cameroon", code: "+237", flag: "/assets/images/flags/cameroon.png" },
-    { name: "Nigeria", code: "+234", flag: "/assets/images/flags/nigeria.png" },
-    { name: "Kenya", code: "+254", flag: "/assets/images/flags/kenya.png" },
-    { name: "South Africa", code: "+27", flag: "/assets/images/flags/south-africa.png" },
-    { name: "Ghana", code: "+233", flag: "/assets/images/flags/ghana.png" },
-    { name: "Ethiopia", code: "+251", flag: "/assets/images/flags/ethiopia.png" },
+// ==========================================
+// MOCK DATA
+// ==========================================
+const availableServices = [
+    { id: "stays", name: "Stays", desc: "Offer places for tourists to stay, with nightly pricing.", icon: "/assets/icons/stays.svg" },
+    { id: "cars", name: "Car Rental", desc: "Rent out vehicles to customers by the day.", icon: "/assets/icons/car-rental.svg" },
+    { id: "events", name: "Events", desc: "Sell tickets for events, shows, or scheduled activities.", icon: "/assets/icons/events.svg" },
+    { id: "airport", name: "Airport Pickup", desc: "Offer scheduled airport pickup and drop-off services.", icon: "/assets/icons/airport-pickup.svg" },
+    { id: "tours", name: "Tours", desc: "Host guided tours that can be booked in advance.", icon: "/assets/icons/tours.svg" },
+    { id: "shops", name: "Shops", desc: "Sell physical products that customers can browse and buy.", icon: "/assets/icons/shops.svg" },
+    { id: "flights", name: "Flights", desc: "List and manage flight routes available to travellers.", icon: "/assets/icons/flights.svg" },
+    { id: "restaurants", name: "Restaurants", desc: "Accept reservations & showcase your menu to travellers.", icon: "/assets/icons/restaurants.svg" },
 ];
 
+// ==========================================
+// REUSABLE COMPONENTS (MUST BE OUTSIDE)
+// ==========================================
+const FileUploadRow = ({ label }: { label: string }) => (
+    <div className="space-y-1.5 mb-5">
+        <label className="text-[13px] font-medium text-gray-700">{label}</label>
+        <div className="flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 bg-white">
+            <span className="text-sm text-gray-400">No File Selected</span>
+            <button type="button" className="text-sm font-bold text-tour-green hover:text-[#048417] transition-colors flex items-center space-x-1">
+                <span>+ Add File</span>
+            </button>
+        </div>
+    </div>
+);
+
+// ==========================================
+// MAIN PAGE COMPONENT
+// ==========================================
 export default function ProviderOnboardingPage() {
-    const [ showPassword, setShowPassword ] = useState(false);
-    const [ selectedCountry, setSelectedCountry ] = useState(countries[ 0 ]);
-    const [ isDropdownOpen, setIsDropdownOpen ] = useState(false);
+    const [ step, setStep ] = useState(2);
+    const [ selectedServices, setSelectedServices ] = useState<string[]>([]);
+
+    // Handlers
+    const toggleService = (id: string) => {
+        setSelectedServices(prev =>
+            prev.includes(id) ? prev.filter(s => s !== id) : [ ...prev, id ]
+        );
+    };
+
+    const handleNext = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setStep(prev => prev + 1);
+    };
+
+    const handleBack = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setStep(prev => prev - 1);
+    };
 
     return (
-        <>
-           
+        <div className="flex-1 bg-white relative pb-20">
 
-            {/* RIGHT SIDE: Form Content */}
-            <div className="w-full lg:w-[65%] flex items-center justify-center p-6 sm:p-12 lg:p-20">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="w-full max-w-[460px] flex flex-col"
-                >
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Your Provider Account</h1>
-                    <p className="text-sm text-gray-500 mb-8">
-                        Join Tourmate and start offering your services to travellers near you.
-                    </p>
+            {/* PROGRESS BAR */}
+            {step < 4 && (
+                <div className="hidden md:flex fixed top-[24px] right-6 lg:right-12 z-50 items-center space-x-3 text-sm">
+                    {/* Step 1: Create Account (Always Done) */}
+                    <div className="flex items-center space-x-2 text-tour-green">
+                        <div className="w-5 h-5 rounded-full bg-tour-green text-white flex items-center justify-center"><Check className="w-3 h-3" /></div>
+                        <span className="font-medium">Create Account</span>
+                    </div>
+                    <div className="w-10 h-px bg-tour-green" />
 
-                    <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+                    {/* Step 2: Choose Services */}
+                    <div className={`flex items-center space-x-2 ${step >= 2 ? (step > 2 ? 'text-tour-green' : 'text-gray-900 font-bold') : 'text-gray-400'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${step > 2 ? 'bg-tour-green text-white' : step === 2 ? 'bg-tour-green text-white' : 'bg-gray-200 text-gray-500'}`}>
+                            {step > 2 ? <Check className="w-3 h-3" /> : '2'}
+                        </div>
+                        <span>Choose Services</span>
+                    </div>
+                    <div className={`w-10 h-px ${step > 2 ? 'bg-tour-green' : 'bg-gray-200'}`} />
 
-                        {/* Full Name */}
-                        <div className="space-y-1.5">
-                            <label className="text-[13px] font-medium text-gray-700">Full Name</label>
-                            <input type="text" placeholder="Enter full name" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition" />
+                    {/* Step 3: Verify Business */}
+                    <div className={`flex items-center space-x-2 ${step >= 3 ? (step > 3 ? 'text-tour-green' : 'text-gray-900 font-bold') : 'text-gray-400'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${step > 3 ? 'bg-tour-green text-white' : step === 3 ? 'bg-tour-green text-white' : 'bg-gray-200 text-gray-500'}`}>
+                            {step > 3 ? <Check className="w-3 h-3" /> : '3'}
+                        </div>
+                        <span>Verify Business</span>
+                    </div>
+                </div>
+            )}
+
+            {/* MULTI-STEP CONTENT */}
+            <AnimatePresence mode="wait">
+
+                {/* STEP 2: CHOOSE SERVICES */}
+                {step === 2 && (
+                    <motion.div
+                        key="step2"
+                        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}
+                        className="max-w-[700px] mx-auto pt-16 px-4 sm:px-6"
+                    >
+                        <div className="text-center mb-10">
+                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">What services do you offer?</h1>
+                            <p className="text-gray-500 text-sm md:text-base">Select all that apply. You can add more services later from your dashboard.</p>
                         </div>
 
-                        {/* Email Address */}
-                        <div className="space-y-1.5">
-                            <label className="text-[13px] font-medium text-gray-700">Email Address</label>
-                            <input type="email" placeholder="Enter email address" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition" />
+                        <div className="space-y-3 mb-10">
+                            {availableServices.map((service) => {
+                                const isSelected = selectedServices.includes(service.id);
+                                return (
+                                    <button
+                                        key={service.id}
+                                        onClick={() => toggleService(service.id)}
+                                        className={`w-full flex items-center p-4 md:p-5 border rounded-2xl transition-all duration-200 ${isSelected ? "border-tour-green bg-[#E6F8EB]/40 shadow-sm" : "border-gray-200 hover:border-tour-green/50 bg-white"
+                                            }`}
+                                    >
+                                        <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gray-50 rounded-xl border border-gray-100">
+                                            <Image src={service.icon} alt={service.name} width={24} height={24} className="object-contain" />
+                                        </div>
+
+                                        <div className="ml-5 text-left flex-1">
+                                            <h4 className={`text-base font-bold mb-0.5 ${isSelected ? 'text-tour-green' : 'text-gray-900'}`}>{service.name}</h4>
+                                            <p className="text-[13px] text-gray-500 leading-relaxed pr-4">{service.desc}</p>
+                                        </div>
+
+                                        <div className={`w-5 h-5 rounded-md border flex items-center justify-center flex-shrink-0 transition-colors ${isSelected ? "bg-tour-green border-tour-green text-white" : "border-gray-300 bg-white"
+                                            }`}>
+                                            {isSelected && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
+                                        </div>
+                                    </button>
+                                );
+                            })}
                         </div>
 
-                        {/* Phone Number */}
-                        <div className="space-y-1.5">
-                            <label className="text-[13px] font-medium text-gray-700">Phone number</label>
-                            <div className="flex gap-3 relative">
-                                {/* Custom Country Dropdown Trigger */}
-                                <button
-                                    type="button"
-                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="flex items-center justify-between w-[115px] border border-gray-200 rounded-xl px-3 py-3 bg-white hover:bg-gray-50 transition-colors focus:border-tour-green focus:ring-1 focus:ring-tour-green outline-none"
-                                >
-                                    <div className="flex items-center space-x-2">
-                                        <Image src={selectedCountry.flag} alt={selectedCountry.name} width={20} height={14} className="rounded-sm object-cover" />
-                                        <span className="text-sm font-medium text-gray-700">{selectedCountry.code}</span>
-                                    </div>
-                                    <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
-                                </button>
-
-                                {/* Phone Input */}
-                                <input
-                                    type="tel"
-                                    placeholder="Enter phone number"
-                                    className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition"
-                                />
-
-                                {/* Dropdown Menu */}
-                                <AnimatePresence>
-                                    {isDropdownOpen && (
-                                        <>
-                                            <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />
-                                            <motion.div
-                                                initial={{ opacity: 0, y: -10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0, y: -10 }}
-                                                transition={{ duration: 0.15 }}
-                                                className="absolute top-full left-0 mt-2 w-[240px] bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-2 max-h-[220px] overflow-y-auto custom-scrollbar"
-                                            >
-                                                {countries.map((country) => (
-                                                    <button
-                                                        key={country.name}
-                                                        type="button"
-                                                        onClick={() => { setSelectedCountry(country); setIsDropdownOpen(false); }}
-                                                        className={`w-full flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 transition-colors ${selectedCountry.name === country.name ? "bg-[#E6F8EB]/50" : ""}`}
-                                                    >
-                                                        <div className="flex items-center space-x-3">
-                                                            <Image src={country.flag} alt={country.name} width={20} height={14} className="rounded-sm object-cover" />
-                                                            <span className={`text-sm ${selectedCountry.name === country.name ? "text-tour-green font-medium" : "text-gray-700"}`}>
-                                                                {country.name}
-                                                            </span>
-                                                        </div>
-                                                        <span className="text-xs text-gray-500">{country.code}</span>
-                                                    </button>
-                                                ))}
-                                            </motion.div>
-                                        </>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        </div>
-
-                        {/* Password */}
-                        <div className="space-y-1.5 pb-2">
-                            <label className="text-[13px] font-medium text-gray-700">Password</label>
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    placeholder="Enter password"
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition pr-10"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
-                                >
-                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="w-full bg-tour-green hover:bg-[#048417] text-white rounded-xl py-3.5 text-sm font-bold transition-colors shadow-md mb-4"
-                        >
-                            Continue
-                        </button>
-
-                        {/* Terms */}
-                        <p className="text-[11px] text-gray-500 text-center leading-relaxed mb-6">
-                            By signing up, you agree to the <a href="#" className="text-tour-green hover:underline">Terms of Service</a> and <a href="#" className="text-tour-green hover:underline">Privacy Policy</a>.
-                        </p>
-
-                        {/* Divider */}
-                        <div className="flex items-center space-x-4 mb-6">
-                            <div className="flex-1 h-px bg-gray-200" />
-                            <span className="text-xs text-gray-400 font-medium uppercase">or</span>
-                            <div className="flex-1 h-px bg-gray-200" />
-                        </div>
-
-                        {/* Google Button */}
-                        <button className="w-full flex items-center justify-center space-x-3 border border-gray-200 rounded-xl py-3 hover:bg-gray-50 transition-colors mb-6">
-                            <FcGoogle className="w-5 h-5" />
-                            <span className="text-[13px] font-medium text-gray-700">Continue with Google</span>
-                        </button>
-
-                        {/* Login Link */}
-                        <div className="text-center">
-                            <span className="text-[13px] text-gray-500">Already have an account? </span>
-                            <button type="button" className="text-[13px] font-medium text-tour-green hover:underline">
-                                Sign In
+                        {/* Actions */}
+                        <div className="flex gap-4 max-w-md mx-auto">
+                            <button className="flex-1 py-3.5 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition">
+                                Back
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                disabled={selectedServices.length === 0}
+                                className={`flex-1 py-3.5 rounded-xl font-bold transition-all shadow-sm ${selectedServices.length > 0
+                                        ? "bg-tour-green text-white hover:bg-[#048417]"
+                                        : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                    }`}
+                            >
+                                Continue
                             </button>
                         </div>
+                    </motion.div>
+                )}
 
-                    </form>
-                </motion.div>
-            </div>
+                {/* STEP 3: VERIFY BUSINESS */}
+                {step === 3 && (
+                    <motion.div
+                        key="step3"
+                        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}
+                        className="max-w-[1000px] mx-auto pt-12 md:pt-20 px-4 sm:px-6 flex flex-col md:flex-row gap-12 lg:gap-24"
+                    >
+                        {/* Left Sidebar */}
+                        <div className="w-full md:w-64 flex-shrink-0">
+                            <h4 className="text-xs font-bold text-gray-400 tracking-wider uppercase mb-4">Your Services</h4>
+                            <div className="space-y-2">
+                                {selectedServices.map((id, idx) => {
+                                    const service = availableServices.find(s => s.id === id);
+                                    return (
+                                        <div key={id} className="flex items-center space-x-3 bg-[#E6F8EB] px-4 py-2.5 rounded-xl">
+                                            <div className="w-5 h-5 rounded-full bg-tour-green text-white flex items-center justify-center text-xs font-bold">
+                                                {idx + 1}
+                                            </div>
+                                            <span className="font-bold text-tour-green text-sm">{service?.name}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
 
-        </>
+                        {/* Right Side: Form */}
+                        <div className="flex-1 max-w-[600px]">
+                            <div className="mb-8">
+                                <h1 className="text-3xl font-bold text-gray-900 mb-2">Verify your business</h1>
+                                <p className="text-gray-500 text-sm">Provide your business details and documents so we can verify your account.</p>
+                            </div>
+
+                            <form onSubmit={(e) => e.preventDefault()}>
+                                <div className="space-y-1.5 mb-5">
+                                    <label className="text-[13px] font-medium text-gray-700">Business Name</label>
+                                    <input type="text" placeholder="Enter business name" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition" />
+                                </div>
+
+                                <div className="flex gap-4 mb-5">
+                                    <div className="flex-1 space-y-1.5">
+                                        <label className="text-[13px] font-medium text-gray-700">Service Type</label>
+                                        <div className="relative">
+                                            <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition appearance-none bg-white text-gray-600">
+                                                <option>Select an option</option>
+                                                {selectedServices.map(id => (
+                                                    <option key={id}>{availableServices.find(s => s.id === id)?.name}</option>
+                                                ))}
+                                            </select>
+                                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 space-y-1.5">
+                                        <label className="text-[13px] font-medium text-gray-700">Location</label>
+                                        <input type="text" placeholder="Enter location" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition" />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5 mb-8">
+                                    <label className="text-[13px] font-medium text-gray-700">Business Email Address</label>
+                                    <input type="email" placeholder="Enter email address" className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition" />
+                                </div>
+
+                                {/* File Uploads (Now using the correctly scoped component) */}
+                                <FileUploadRow label="Business Registration Certificate" />
+                                <FileUploadRow label="Operating License" />
+                                <FileUploadRow label="Lease Agreement" />
+
+                                {/* Actions */}
+                                <div className="flex gap-4 mt-10">
+                                    <button onClick={handleBack} className="w-[140px] py-3.5 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition">
+                                        Back
+                                    </button>
+                                    <button onClick={handleNext} className="flex-1 bg-tour-green hover:bg-[#048417] text-white font-bold py-3.5 rounded-xl transition-colors duration-300 shadow-md">
+                                        Submit Application
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* STEP 4: SUCCESS */}
+                {step === 4 && (
+                    <motion.div
+                        key="step4"
+                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
+                        className="flex-1 flex flex-col items-center justify-center min-h-[70vh] px-4 text-center"
+                    >
+                        <div className="w-16 h-16 bg-[#E6F8EB] rounded-full flex items-center justify-center mb-6 shadow-sm">
+                            <Check className="w-8 h-8 text-tour-green" strokeWidth={3} />
+                        </div>
+
+                        <h1 className="text-3xl font-bold text-gray-900 mb-4">Application submitted!</h1>
+
+                        <p className="text-gray-500 text-sm md:text-base max-w-md mb-8 leading-relaxed">
+                            We&apos;ll review your documents and get back to you within 24–48 hours. Check your email for next steps.
+                        </p>
+
+                        <Link href="/" className="bg-tour-green hover:bg-[#048417] text-white font-bold py-3.5 px-8 rounded-xl transition-colors duration-300 shadow-md">
+                            Back to home
+                        </Link>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
     );
 }
