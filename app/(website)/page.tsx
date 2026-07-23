@@ -1,4 +1,3 @@
-import FloatingCategories from "@/components/shared/floating-categories";
 import GuidedTours from "@/components/home/guide-tours";
 import Hero from "@/components/shared/hero";
 import AppDownload from "@/components/home/app-download";
@@ -20,7 +19,10 @@ export default function Home() {
         subtitle="Luxury hotels, card rent, tours, flights,  and local experience seamlessly connected."
         activeCategory="home" // Highlights the Stays icon!
         searchPlaceholder="Where do you want to stay?"
-        searchDropdowns={[ "Property type", "Price", "Amenities" ]}
+        searchFilters={[
+          { label: "Category", type: "select", options: [ "Stays", "Car Rental", "Events", "Airport Pickup", "Tours", "Shops" ] },
+          { label: "When?", type: "select", options: [ "Today", "This weekend", "This week", "This month", "Pick dates" ] },
+        ]}
       />
 
       <PromoMarquee />

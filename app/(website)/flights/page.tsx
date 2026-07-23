@@ -10,7 +10,11 @@ export default function FlightsPage() {
             subtitle="Your African Journey, Your Way"
             activeCategory="Flights" // Highlights active page!
             searchPlaceholder="From - To"
-            searchDropdowns={[ "Category", "Rating", "Price" ]}
+            searchFilters={[
+                { label: "Departure date", type: "date" }, // Renders the beautiful Date Picker
+                { label: "Cabin Class", type: "select", options: [ "Economy", "Business", "First Class", "Premium Economy" ] },
+                { label: "Trip type", type: "select", options: [ "Round Trip", "One Way" ] },
+            ]}
         />
 
         {/* Top Rated Vehicles: Reusable */}
