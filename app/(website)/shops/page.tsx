@@ -10,7 +10,12 @@ export default function ShopsPage() {
             subtitle="Your African Journey, Your Way"
             activeCategory="Shops" // Highlights active page!
             searchPlaceholder="City or neighborhood"
-            searchDropdowns={[ "Category", "Rating", "Price" ]}
+            searchFilters={[
+                { label: "Language", type: "select", options: [ "English", "French", "Arabic", "Swahili", "Portuguese", "Spanish" ] },
+                { label: "Rating", type: "select", options: [ "4.5* & above", "4* & above", "3.5* & above", "All ratings" ] },
+                { label: "Category", type: "select", options: [ "Safari", "City tour", "Cultural", "Adventure", "Wildlife", "Photography" ] },
+                { label: "Price", type: "select", options: [ "Under $50", "$50 - $100", "$100 - $250", "$250+" ] },
+            ]}
         />
 
         {/* Top Rated Vehicles: Reusable */}

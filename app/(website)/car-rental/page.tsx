@@ -10,7 +10,12 @@ export default function CarRentalPage() {
             subtitle="Your African Journey, Your Way"
             activeCategory="Car Rental" // Highlights active page!
             searchPlaceholder="Where do you want to stay?"
-            searchDropdowns={[ "Brand", "Model", "Price", "Transmission" ]}
+            searchFilters={[
+                { label: "Brand", type: "select", options: [ "Toyota", "Mercedes", "BMW", "Land Rover", "Ford", "Hyundai" ] },
+                { label: "Model", type: "select", options: [ "SUV", "Sedan", "4x4/Safari", "Minivan", "Pickup", "Luxury" ] },
+                { label: "Price", type: "select", options: [ "Under $300/day", "$60-$120/day", "$120+/day" ] },
+                { label: "Transmission", type: "select", options: [ "Automatic", "Manual" ] },
+            ]}
         />
 
         {/* Top Rated Vehicles: Reusable */}

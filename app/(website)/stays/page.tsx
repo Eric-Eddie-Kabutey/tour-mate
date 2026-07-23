@@ -10,7 +10,11 @@ export default function StayPage() {
             subtitle="Luxury hotels, apartments and villas across 20+ African countries."
             activeCategory="Stays" // Highlights the Stays icon!
             searchPlaceholder="Where do you want to stay?"
-            searchDropdowns={[ "Property type", "Price", "Amenities" ]}
+            searchFilters={[
+                { label: "Property type", type: "select", options: [ "Hotel", "Apartment", "Villa", "Guesthouse", "Resort", "Hostel" ] },
+                { label: "Price", type: "select", options: [ "Under $20", "$50 - $100", "$100 - $200", "$200 - $500", "$500+" ] },
+                { label: "Amenities", type: "select", options: [ "Pool", "WiFi", "Gym", "Spa", "Restaurant", "Parking" ] },
+            ]}
         />
 
         {/* Top Rated Stays */}

@@ -1,8 +1,23 @@
 "use client";
 import { motion, Variants } from "framer-motion";
-import { Search, ChevronDown, MessageSquare } from "lucide-react";
+import { Search, ChevronDown, CalendarDays } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+// Shadcn UI Imports
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { useState } from "react";
 
 // Extracted categories data
 export const categories = [
@@ -16,21 +31,34 @@ export const categories = [
     { name: "Restaurants", icon: "/assets/icons/restaurants.avif", href: "/restaurants" },
 ];
 
+export interface SearchFilter {
+    label: string;
+    type: "select" | "date";
+    options?: string[]; // Used if type is "select"
+}
+
 export interface HeroProps {
     backgroundImage: string;
     subtitle: string;
     activeCategory?: string;
-    searchPlaceholder: string;
-    searchDropdowns: string[];
+    searchPlaceholder: string;    
+    searchFilters: SearchFilter[];
 }
 
 export default function Hero({
     backgroundImage,
     subtitle,
     activeCategory,
-    searchPlaceholder,
-    searchDropdowns
+    searchPlaceholder,    
+    searchFilters
 }: HeroProps) {
+
+    // State for the main search input
+    const [ searchQuery, setSearchQuery ] = useState("");
+    // Dynamic state object for all dropdowns (e.g. { "Property type": "Villa", "Price": "Under $20" })
+    const [ filterState, setFilterState ] = useState<Record<string, string>>({});
+    // Specific state for date pickers
+    const [ dateState, setDateState ] = useState<Record<string, { start: string; end: string }>>({});
 
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
@@ -43,6 +71,16 @@ export default function Hero({
     const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300 } }
+    };
+
+    const handleSearch = () => {
+        // This logs the full state so you can see it working!
+        console.log("Searching with:", {
+            query: searchQuery,
+            filters: filterState,
+            dates: dateState
+        });
+        alert("Check the console to see the search state!");
     };
 
     return (
@@ -122,33 +160,98 @@ export default function Hero({
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.8, duration: 0.5 }}
-                    className="w-full max-w-4xl bg-tour-white rounded-full p-2 flex flex-col md:flex-row items-center justify-between shadow-2xl space-y-2 md:space-y-0"
+                    className="w-full max-w-4xl bg-tour-white rounded-[2rem] p-2 flex flex-col md:flex-row items-center justify-between shadow-2xl space-y-2 md:space-y-0 relative z-50"
                 >
-                    {/* Search Input */}
-                    <div className="flex-1 flex items-center px-4 py-2 w-full">
-                        <Search className="w-5 h-5 text-gray-400 mr-2" />
+                    {/* Main Search Input */}
+                    <div className="flex-1 flex items-center px-4 py-3 w-full">
+                        <Search className="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" />
                         <input
                             type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder={searchPlaceholder}
-                            className="bg-transparent outline-none text-gray-700 w-full text-sm md:text-base placeholder:text-gray-400"
+                            className="bg-transparent outline-none text-gray-900 w-full text-sm md:text-base font-medium placeholder:text-gray-500 placeholder:font-normal"
                         />
                     </div>
 
-                    {/* Dynamic Dropdowns */}
-                    {searchDropdowns.map((dropdown, index) => (
-                        <div key={index} className="flex flex-col md:flex-row items-center w-full md:w-auto">
-                            <div className="hidden md:block w-px h-8 bg-gray-200 mx-2"></div>
-                            <div className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-50 rounded-full w-full md:w-auto justify-between">
-                                <span className="text-gray-600 text-sm md:text-base whitespace-nowrap">{dropdown}</span>
-                                <ChevronDown className="w-4 h-4 text-gray-400 ml-2" />
-                            </div>
+                    {/* Render Dynamic Filters */}
+                    {searchFilters.map((filter, index) => (
+                        <div key={index} className="flex flex-col md:flex-row items-center w-full md:w-auto border-t md:border-t-0 md:border-l border-gray-200">
+
+                            {/* If it's a standard Dropdown Select */}
+                            {filter.type === "select" && filter.options && (
+                                <Select
+                                    value={filterState[ filter.label ] || ""}
+                                    onValueChange={(val) => val && setFilterState(prev => ({ ...prev, [ filter.label ]: val }))}
+                                >
+                                    <SelectTrigger className="border-none bg-transparent shadow-none focus:ring-0 px-5 py-3 text-gray-600 text-sm md:text-base whitespace-nowrap hover:bg-gray-50 rounded-full h-auto w-full outline-none flex items-center justify-between gap-2 data-[state=open]:bg-gray-50 transition-colors">
+                                        <span>
+                                            {filterState[ filter.label ] ? (
+                                                <span className="text-gray-900 font-semibold">{filterState[ filter.label ]}</span>
+                                            ) : (
+                                                <span>{filter.label}</span>
+                                            )}
+                                        </span>
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-xl border-gray-100 shadow-xl bg-white z-[80] min-w-[160px]">
+                                        {filter.options.map(opt => (
+                                            <SelectItem key={opt} value={opt} className="hover:bg-gray-50 focus:bg-[#E6F8EB] focus:text-tour-green cursor-pointer py-3 text-sm">
+                                                {opt}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+
+                            {/* If it's a Date Picker */}
+                            {filter.type === "date" && (
+                                <Popover>
+                                    <PopoverTrigger className="flex items-center justify-between w-full md:w-auto px-5 py-3 text-gray-600 text-sm md:text-base whitespace-nowrap hover:bg-gray-50 rounded-full outline-none transition-colors data-[state=open]:bg-gray-50 gap-2">
+                                        <span className="flex items-center gap-2">
+                                            <CalendarDays className="w-4 h-4 text-gray-400" />
+                                            {dateState[ filter.label ]?.start ? (
+                                                <span className="text-gray-900 font-semibold">Dates Selected</span>
+                                            ) : (
+                                                <span>{filter.label}</span>
+                                            )}
+                                        </span>
+                                        <ChevronDown className="w-4 h-4 text-gray-400 opacity-50" />
+                                    </PopoverTrigger>
+                                    <PopoverContent className="p-5 w-auto rounded-2xl shadow-2xl border-gray-100 bg-white z-[80]" align="center" sideOffset={10}>
+                                        <div className="flex gap-4">
+                                            <div className="flex flex-col space-y-1.5">
+                                                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Check-in</label>
+                                                <input
+                                                    type="date"
+                                                    onChange={(e) => setDateState(prev => ({ ...prev, [ filter.label ]: { ...prev[ filter.label ], start: e.target.value } }))}
+                                                    className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition text-gray-700 bg-white"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col space-y-1.5">
+                                                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Check-out</label>
+                                                <input
+                                                    type="date"
+                                                    onChange={(e) => setDateState(prev => ({ ...prev, [ filter.label ]: { ...prev[ filter.label ], end: e.target.value } }))}
+                                                    className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-tour-green focus:ring-1 focus:ring-tour-green transition text-gray-700 bg-white"
+                                                />
+                                            </div>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                            )}
+
                         </div>
                     ))}
 
                     {/* Search Button */}
-                    <button className="w-full md:w-auto bg-tour-green hover:bg-[#048417] text-tour-white px-8 py-3 rounded-full font-medium transition duration-300 md:ml-2">
-                        Search
-                    </button>
+                    <div className="px-2 w-full md:w-auto pb-2 md:pb-0 pt-2 md:pt-0 border-t md:border-t-0 border-gray-100 md:border-none">
+                        <button
+                            onClick={handleSearch}
+                            className="w-full md:w-auto bg-tour-green hover:bg-[#048417] text-tour-white px-8 py-3 rounded-full font-bold transition duration-300 shadow-md"
+                        >
+                            Search
+                        </button>
+                    </div>
                 </motion.div>
 
                 {/* Statistics section */}
@@ -180,9 +283,7 @@ export default function Hero({
                         <p className="text-xs md:text-sm text-gray-300 font-light">Support</p>
                     </div>
                 </motion.div>
-            </div>
-
-            {/* Note: I recommend moving the Floating Chat Button out of here into app/layout.tsx so it persists across all pages! */}
+            </div>            
         </div>
     );
 }

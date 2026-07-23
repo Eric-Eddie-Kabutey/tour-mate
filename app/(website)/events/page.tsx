@@ -10,7 +10,12 @@ export default function EventsPage() {
             subtitle="Your African Journey, Your Way"
             activeCategory="Events" // Highlights active page!
             searchPlaceholder="Where do you want to stay?"
-            searchDropdowns={[ "Brand", "Model", "Price", "Transmission" ]}
+            searchFilters={[
+                { label: "Language", type: "select", options: [ "English", "French", "Arabic", "Swahili", "Portuguese", "Spanish" ] },
+                { label: "Rating", type: "select", options: [ "4.5* & above", "4* & above", "3.5* & above", "All ratings" ] },
+                { label: "Category", type: "select", options: [ "Safari", "City tour", "Cultural", "Adventure", "Wildlife", "Photography" ] },
+                { label: "Price", type: "select", options: [ "Under $50", "$50 - $100", "$100 - $250", "$250+" ] },
+            ]}
         />
 
         {/* Top Rated Vehicles: Reusable */}
