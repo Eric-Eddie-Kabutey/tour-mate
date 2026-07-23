@@ -20,17 +20,23 @@ export default function FloatingCategories() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const marqueeElement = document.getElementById("promo-marquee");
+            const heroElement  = document.getElementById("main-hero-section");
 
-            if (marqueeElement) {
-                const rect = marqueeElement.getBoundingClientRect();
-                // If the bottom of the marquee scrolls past the main header (approx 70px)
-                setIsVisible(rect.bottom < 70);
+            if (heroElement ) {
+                const rect = heroElement .getBoundingClientRect();
+                // The FloatingCategories should become visible if the bottom of the hero
+                // is above a certain point (e.g., roughly where the sticky header ends)
+                // Adjust 80px based on your header's height + a small offset
+                setIsVisible(rect.bottom < 80); 
+            } else {
+                // If there's no hero (e.g., maybe on an auth page, etc.), hide the categories.
+                // Or, you might choose to always show them if there's no hero.
+                setIsVisible(false);
             }
         };
 
         window.addEventListener("scroll", handleScroll);
-        // Initial check
+        // Perform initial check on mount
         handleScroll();
 
         return () => window.removeEventListener("scroll", handleScroll);
