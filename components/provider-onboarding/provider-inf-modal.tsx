@@ -15,7 +15,7 @@ export default function ProviderInfoModal({ isOpen, onClose }: ProviderInfoModal
 
     const handleGetStarted = () => {
         onClose();
-        router.push("/provider-onboarding");
+        router.push("/provider-auth/sign-up");
     };
 
     return (
