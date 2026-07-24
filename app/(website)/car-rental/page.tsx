@@ -169,7 +169,8 @@ export default function CarRentalPage() {
 				titleHighlight='Vehicles'
 				subtitle="The highest-rated cars and SUVs across Africa's top cities"
 				filters={carFilters}
-				items={mockCars}
+                items={mockCars}
+                itemType='cars'
 			/>
 
 			{/* Sponsored */}
@@ -182,6 +183,7 @@ export default function CarRentalPage() {
                 subtitle="The highest-rated cars and SUVs across Africa's top cities"
                 filters={carFilters}
                 items={mockCars}
+                itemType='cars'
             />
 
 			{/* CTA */}
@@ -194,6 +196,7 @@ export default function CarRentalPage() {
                 subtitle="The highest-rated cars and SUVs across Africa's top cities"
                 filters={carFilters}
                 items={mockCars}
+                itemType='cars'
             />
 		</>
 	)

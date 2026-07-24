@@ -151,7 +151,8 @@ export default function FlightsPage() {
                 titleHighlight='Deals'
                 subtitle="Top-value routes across Africa, curated for the savvy traveller"
 				filters={flightFilters}
-				items={mockFlights}
+                items={mockFlights}
+                itemType='flights'
 			/>
 
 			{/* Sponsored */}
@@ -163,7 +164,8 @@ export default function FlightsPage() {
                 titleHighlight='Routes'
                 subtitle="Flights tailored to your departure city and preferred travel dates"
 				filters={flightFilters}
-				items={mockFlights}
+                items={mockFlights}
+                itemType='flights'
 			/>
 
 			{/* CTA */}
@@ -175,7 +177,8 @@ export default function FlightsPage() {
 				titleHighlight='Like'
                 subtitle="More routes connecting Africa's greatest cities and destinations"
 				filters={flightFilters}
-				items={mockFlights}
+                items={mockFlights}
+                itemType='flights'
 			/>
 		</>
 	)
