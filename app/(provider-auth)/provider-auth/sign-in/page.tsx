@@ -18,7 +18,7 @@ export default function ProviderSignInPage() {
 
         setTimeout(() => {
             setIsLoading(false);
-            router.push("/provider-onboarding");
+            router.push("/provider/onboarding");
         }, 1000);
     };
 
