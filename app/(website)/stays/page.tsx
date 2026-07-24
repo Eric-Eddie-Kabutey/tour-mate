@@ -1,7 +1,18 @@
 import Hero from "@/components/shared/hero";
+import { FilterConfig } from "@/components/shared/smart-carousel";
 import StayFeatures from "@/components/shared/stay-features";
 import NewsletterSignup from "@/components/stays/news-letter-signup";
 import SponsoredFeatures from "@/components/stays/sponsored-feature";
+
+const staysFilters: FilterConfig[] = [
+    { id: "dates", label: "Dates", type: "date-range", dateLabels: [ "Check-in", "Check-out" ] },
+    { id: "Guests", label: "Guest", type: "counter" },
+    { id: "Sort by", label: "Sort by", type: "select", options: [ "Price Low to High", "Price High to Low", "Top Rated", "Most Popular" ] },
+    { id: "freeCancellation", label: "Free Cancellation", type: "button" },
+    { id: "starRating", label: "Star Rating", type: "select", options: [ "5 Stars", "4 Stars", "3 Stars" ] },
+    { id: "Rating", label: "Rating", type: "select", options: [ "4.9* & above", "4.7* & above", "4.5* & above", "All ratings" ] },
+];
+
 
 export default function StayPage() {
     return (<>        
