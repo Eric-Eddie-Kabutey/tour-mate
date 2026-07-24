@@ -17,6 +17,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { useRouter } from "next/navigation";
 
 // ==========================================
 // TYPES & INTERFACES
@@ -53,13 +54,16 @@ interface SmartCarouselProps {
     subtitle: string;
     filters: FilterConfig[];
     items: CarouselItem[];
+    itemType: string; // <--- Tells the carousel what type of data it's rendering (e.g., "stays", "cars")
+
 }
 
 // ==========================================
 // MAIN COMPONENT
 // ==========================================
-export default function SmartCarousel({ title, titleHighlight, subtitle, filters, items }: SmartCarouselProps) {
+export default function SmartCarousel({ title, titleHighlight, subtitle, filters, items, itemType }: SmartCarouselProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const router = useRouter()
 
     // Filter State Management
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -135,6 +139,12 @@ export default function SmartCarousel({ title, titleHighlight, subtitle, filters
         if (!scrollRef.current) return;
         const amount = scrollRef.current.children[ 0 ].clientWidth + 24;
         scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+    };
+
+    // Dynamic Routing Handler
+    const handleCardClick = (id: string) => {
+        // Generates a clean URL: /listing?type=stays&id=1
+        router.push(`/listing?type=${itemType}&id=${id}`);
     };
 
     return (
@@ -295,11 +305,16 @@ export default function SmartCarousel({ title, titleHighlight, subtitle, filters
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     transition={{ duration: 0.4, type: "spring" }}
                                     key={item.id}
+                                    onClick={() => handleCardClick(item.id)} // <--- Clean dynamic routing
                                     className="w-[85vw] md:w-[280px] lg:w-[300px] flex-shrink-0 snap-center md:snap-start bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group cursor-pointer"
                                 >
                                     <div className="relative w-full h-[190px] overflow-hidden">
                                         <Image src={item.image} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                                        <button className="absolute top-3 right-3 w-8 h-8 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/40 transition z-10"><Heart className="w-4 h-4 text-white" /></button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); }}
+                                            className="absolute top-3 right-3 w-8 h-8 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/40 transition z-10"
+                                            
+                                        ><Heart className="w-4 h-4 text-white" /></button>
                                         <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm rounded-md px-2 py-1 flex items-center space-x-1 z-10">
                                             <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
                                             <span className="text-white text-xs font-semibold">{item.rating}</span>
