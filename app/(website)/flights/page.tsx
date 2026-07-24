@@ -44,7 +44,7 @@ const flightFilters: FilterConfig[] = [
 		label: 'Max Price',
 		type: 'select',
 		options: ['Under $200', 'Under $350', 'Under $500', '$500+'],
-	}, // Note: The Smart Engine parses "Under $200" automatically!
+	},
 ]
 
 const mockFlights: CarouselItem[] = [
@@ -173,7 +173,7 @@ export default function FlightsPage() {
 
             {/* BFlights You Like: Reusable */}
 			<SmartCarousel
-				title='BFlights You'
+				title='Flights You'
 				titleHighlight='Like'
                 subtitle="More routes connecting Africa's greatest cities and destinations"
 				filters={flightFilters}
