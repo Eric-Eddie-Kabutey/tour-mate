@@ -9,14 +9,14 @@ import Link from "next/link";
 // MOCK DATA
 // ==========================================
 const availableServices = [
-    { id: "stays", name: "Stays", desc: "Offer places for tourists to stay, with nightly pricing.", icon: "/assets/icons/stays.svg" },
-    { id: "cars", name: "Car Rental", desc: "Rent out vehicles to customers by the day.", icon: "/assets/icons/car-rental.svg" },
-    { id: "events", name: "Events", desc: "Sell tickets for events, shows, or scheduled activities.", icon: "/assets/icons/events.svg" },
-    { id: "airport", name: "Airport Pickup", desc: "Offer scheduled airport pickup and drop-off services.", icon: "/assets/icons/airport-pickup.svg" },
-    { id: "tours", name: "Tours", desc: "Host guided tours that can be booked in advance.", icon: "/assets/icons/tours.svg" },
-    { id: "shops", name: "Shops", desc: "Sell physical products that customers can browse and buy.", icon: "/assets/icons/shops.svg" },
-    { id: "flights", name: "Flights", desc: "List and manage flight routes available to travellers.", icon: "/assets/icons/flights.svg" },
-    { id: "restaurants", name: "Restaurants", desc: "Accept reservations & showcase your menu to travellers.", icon: "/assets/icons/restaurants.svg" },
+    { id: "stays", name: "Stays", desc: "Offer places for tourists to stay, with nightly pricing.", icon: "/assets/icons/stay.avif" },
+    { id: "cars", name: "Car Rental", desc: "Rent out vehicles to customers by the day.", icon: "/assets/icons/car-rental.avif" },
+    { id: "events", name: "Events", desc: "Sell tickets for events, shows, or scheduled activities.", icon: "/assets/icons/events.avif" },
+    { id: "airport", name: "Airport Pickup", desc: "Offer scheduled airport pickup and drop-off services.", icon: "/assets/icons/airport-pickup.avif" },
+    { id: "tours", name: "Tours", desc: "Host guided tours that can be booked in advance.", icon: "/assets/icons/tours.avif" },
+    { id: "shops", name: "Shops", desc: "Sell physical products that customers can browse and buy.", icon: "/assets/icons/shops.avif" },
+    { id: "flights", name: "Flights", desc: "List and manage flight routes available to travellers.", icon: "/assets/icons/flights.avif" },
+    { id: "restaurants", name: "Restaurants", desc: "Accept reservations & showcase your menu to travellers.", icon: "/assets/icons/restaurants.avif" },
 ];
 
 // ==========================================
