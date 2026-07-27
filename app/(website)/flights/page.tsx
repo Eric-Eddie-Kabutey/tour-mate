@@ -19,7 +19,7 @@ const flightFilters: FilterConfig[] = [
 			'Top Rated',
 		],
 	},
-	{ id: 'directOnly', label: 'Direct', type: 'button' },
+	{ id: 'direct', label: 'Direct', type: 'button' },
 	{
 		id: 'Stops',
 		label: 'Stops',
@@ -37,6 +37,7 @@ const flightFilters: FilterConfig[] = [
 			'Air Peace',
 			'EgyptAir',
 			'Royal Air Maroc',
+			'South Africa Airways'
 		],
 	},
 	{
@@ -45,22 +46,28 @@ const flightFilters: FilterConfig[] = [
 		type: 'select',
 		options: ['Under $200', 'Under $350', 'Under $500', '$500+'],
 	},
+	{
+		id: 'rating',
+		label: 'Rating',
+		type: 'select',
+		options: [ '4.9* & above', '4.7* & above', '4.5* & above', 'All ratings' ],
+	},
 ]
 
 const mockFlights: CarouselItem[] = [
 	{
 		id: '1',
         title: 'Nairobi to Lagos Business',
-		subtitle: '4x4 SUV',
+		subtitle: 'Kenya Airways',
         location: 'Nairobi → Lagos',
-		tags: '7 seats · 4 bags · Diesel',
+		tags: '5h 05m · Direct · Business',
 		rating: 4.9,
 		rawPrice: 95,
-		popularity: 100,
+		popularity: 130,
 		fuelType: 'Diesel',
 		priceText: (
 			<>
-				<span className='text-tour-green font-bold text-lg'>$95</span>
+				<span className='text-tour-green font-bold text-lg'>$130</span>
 				<span className='text-tour-green text-sm ml-1'>/ day</span>
 			</>
 		),
@@ -71,51 +78,61 @@ const mockFlights: CarouselItem[] = [
         title: 'Nairobi to Cape Town',
 		subtitle: 'Off-Road 4x4',
         location: 'Nairobi → Lagos',
-		tags: '5 seats · 3 bags · Diesel',
+		tags: '4h 20m · Direct · Economy',
 		rating: 4.9,
-		rawPrice: 95,
-		popularity: 85,
-		fuelType: 'Diesel',
+		rawPrice: 320,
+		popularity: 85,		
 		priceText: (
 			<>
-				<span className='text-tour-green font-bold text-lg'>$140</span>
-				<span className='text-tour-green text-sm ml-1'>/ day</span>
+				<span className='text-tour-green font-bold text-lg'>$320</span>				
 			</>
 		),
 		image: '/assets/images/flights/flight.jpg',
 	},
 	{
 		id: '3',
-		title: 'BMW X5',
-		subtitle: 'Luxury SUV',
-		location: 'Cairo, Egypt',
-		tags: '5 seats · 3 bags · Petrol',
+		title: 'Addis Ababa to London',
+		subtitle: 'Ethiopian Airlines',
+		location: 'Addis Ababa → London',
+		tags: '8h 45m · Direct · Economy',
 		rating: 4.9,
-		rawPrice: 95,
-		popularity: 90,
-		fuelType: 'Petrol',
+		rawPrice: 680,
+		popularity: 90,		
 		priceText: (
 			<>
-				<span className='text-tour-green font-bold text-lg'>$155</span>
-				<span className='text-tour-green text-sm ml-1'>/ day</span>
+				<span className='text-tour-green font-bold text-lg'>$680</span>				
 			</>
 		),
 		image: '/assets/images/flights/flight.jpg',
 	},
 	{
 		id: '4',
-		title: 'Mercedes E-Class',
-		subtitle: 'Luxury Sedan',
-		location: 'Cape Town, SA',
-		tags: '5 seats · 2 bags · Hybrid',
-		rating: 4.9,
-		rawPrice: 450,
-		popularity: 100,
-		fuelType: 'Hybrid',
+		title: 'Kigali to Lagos',
+		subtitle: 'RwandAir',
+		location: 'Kigali → Lagos',
+		tags: '3h 15m · Direct · Economy',
+		rating: 4.8,
+		rawPrice: 260,
+		popularity: 78,		
 		priceText: (
 			<>
-				<span className='text-tour-green font-bold text-lg'>$450</span>
-				<span className='text-tour-green text-sm ml-1'>/ day</span>
+				<span className='text-tour-green font-bold text-lg'>$260</span>				
+			</>
+		),
+		image: '/assets/images/flights/flight.jpg',
+	},
+	{
+		id: '5',
+		title: 'Lagos to Nairobi',
+		subtitle: 'Air Peace',
+		location: 'Lagos → Nairobi',
+		tags: '4h 00m · Direct · Economy',
+		rating: 4.8,
+		rawPrice: 280,
+		popularity: 78,
+		priceText: (
+			<>
+				<span className='text-tour-green font-bold text-lg'>$280</span>
 			</>
 		),
 		image: '/assets/images/flights/flight.jpg',
