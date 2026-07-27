@@ -1,4 +1,3 @@
-import TopRatedVehicles from "@/components/car-rental/top-rated-vehicles";
 import Hero from "@/components/shared/hero";
 import SmartCarousel, { CarouselItem, FilterConfig } from "@/components/shared/smart-carousel";
 import NewsletterSignup from "@/components/stays/news-letter-signup";
@@ -22,21 +21,23 @@ const toursFilters: FilterConfig[] = [
             'Most Popular',
         ],
     },
-    { id: 'accessible', label: 'Accessible', type: 'button' },
+    { id: 'dayTrip', label: 'Day Trip', type: 'button' },
+    { id: 'MultiDay', label: 'Multi-Day', type: 'button' },
+    { id: 'private', label: 'Private', type: 'button' },
     {
-        id: 'specialNeed',
-        label: 'Special Need',
+        id: 'duration',
+        label: 'Duration',
         type: 'select',
-        options: ['Wheelchair', 'Child seat', 'Extract luggage', 'Meet & Greet',],
+        options: ['Half day', 'Full day', '2-3 days', '4-7 days', '7+ days'],
     },
     {
-        id: 'priceRange',
-        label: 'Price Range',
+        id: 'groupSize',
+        label: 'Group Size',
         type: 'select',
-        options: ['Under $30', '$30 - $60', '$60 - $200', '$100+'],
+        options: ['Solo', 'Couple', 'Small (2-6)', 'Group (7+)'],
     },
     {
-        id: 'Rating',
+        id: 'rating',
         label: 'Rating',
         type: 'select',
         options: [ '4.9* & above', '4.7* & above', '4.5* & above', 'All ratings' ],
@@ -46,67 +47,88 @@ const toursFilters: FilterConfig[] = [
 const mockTours: CarouselItem[] = [
     {
         id: '1',
-        title: 'Nairobi to Lagos Business',
-        subtitle: '4x4 SUV',
-        location: 'Nairobi → Lagos',		
-        rating: 4.9,
-        rawPrice: 95,
+        title: 'Gorilla Trekking Rwanda',
+        subtitle: 'Wildlife Experience',
+        location: 'Volcanoes NP, Rwanda',	
+        tags: 'Full day · Solo–8 pax',
+        rating: 5.0,
+        rawPrice: 1500,
         popularity: 100,		
         priceText: (
             <>
-                <span className='text-tour-green font-bold text-lg'>$95</span>
-                <span className='text-tour-green text-sm ml-1'>/ day</span>
+                <span className='text-tour-green font-bold text-lg'>$1,500</span>
+                <span className='text-tour-green text-sm ml-1'>/ person</span>
             </>
         ),
-        image: '/assets/images/stay/silo.jpg',
+        image: '/assets/images/tours/elephant.jpg',
     },
     {
         id: '2',
-        title: 'Nairobi to Cape Town',
-        subtitle: 'Off-Road 4x4',
-        location: 'Nairobi → Lagos',		
+        title: 'Serengeti Safari',
+        subtitle: 'Wildlife Safari',
+        location: 'Serengeti, Tanzania',	
+        tags: '3 days · 2–8 pax',
         rating: 4.9,
-        rawPrice: 95,
+        rawPrice: 450,
         popularity: 85,		
         priceText: (
             <>
-                <span className='text-tour-green font-bold text-lg'>$140</span>
-                <span className='text-tour-green text-sm ml-1'>/ day</span>
+                <span className='text-tour-green font-bold text-lg'>$450</span>
+                <span className='text-tour-green text-sm ml-1'>/ person</span>
             </>
         ),
-        image: '/assets/images/stay/anantara.jpg',
+        image: '/assets/images/tours/elephant.jpg',
     },
     {
         id: '3',
-        title: 'Zanzibar Beach Villa',
-        subtitle: 'Private Villa',
-        location: 'Zanzibar, Tanzania',		
+        title: 'Kilimanjaro Trek',
+        subtitle: 'Mountain Adventure',
+        location: 'Moshi, Tanzania',
+        tags: '7 days · Solo–10 pax',
         rating: 4.9,
-        rawPrice: 95,
+        rawPrice: 1800,
         popularity: 90,		
         priceText: (
             <>
-                <span className='text-tour-green font-bold text-lg'>$155</span>
-                <span className='text-tour-green text-sm ml-1'>/ day</span>
+                <span className='text-tour-green font-bold text-lg'>$1,800</span>
+                <span className='text-tour-green text-sm ml-1'>/ person</span>
             </>
         ),
-        image: '/assets/images/stay/zanzibar.jpg',
+        image: '/assets/images/tours/elephant.jpg',
     },
     {
         id: '4',
-        title: 'Mercedes E-Class',
-        subtitle: 'Luxury Sedan',
-        location: 'Cape Town, SA',		
+        title: 'Okavango Delta',
+        subtitle: 'Wildlife Safari',
+        location: 'Botswana',
+        tags: '2 days · 2–6 pax',
         rating: 4.9,
-        rawPrice: 450,
+        rawPrice: 380,
         popularity: 100,		
         priceText: (
             <>
-                <span className='text-tour-green font-bold text-lg'>$450</span>
-                <span className='text-tour-green text-sm ml-1'>/ day</span>
+                <span className='text-tour-green font-bold text-lg'>$380</span>
+                <span className='text-tour-green text-sm ml-1'>/ person</span>
             </>
         ),
-        image: '/assets/images/stay/anantara.jpg',
+        image: '/assets/images/tours/elephant.jpg',
+    },
+    {
+        id: '5',
+        title: 'Sahara Desert Camp',
+        subtitle: 'Adventure',
+        location: 'Merzouga, Morocco',
+        tags: '2 nights · 2–8 pax',
+        rating: 4.9,
+        rawPrice: 220,
+        popularity: 89,
+        priceText: (
+            <>
+                <span className='text-tour-green font-bold text-lg'>$220</span>
+                <span className='text-tour-green text-sm ml-1'>/ person</span>
+            </>
+        ),
+        image: '/assets/images/tours/sahara-desert-camp.jpg',
     },
 ]
 
@@ -125,40 +147,40 @@ export default function ToursPage() {
             ]}
         />
 
-        {/* Top Rated Vehicles: Reusable */}
+        {/* Top Rated Tours: Reusable */}
         <SmartCarousel
                         title='Top Rated'
-                        titleHighlight='Stays'
-                        subtitle="Africa's highest-reviewed properties, loved by travellers"
+                        titleHighlight='Tours'
+            subtitle="Africa's most-loved experiences, rated by thousands of travellers"
                         filters={toursFilters}
                         items={mockTours}
-                        itemType='stays'
+                        itemType='tours'
                     />
 
         {/* Sponsored */}
         <SponsoredFeatures />
 
-        {/* Top Rated Vehicles: Reusable */}
+        {/* Recommended For You: Reusable */}
         <SmartCarousel
-				title='Top Rated'
-				titleHighlight='Stays'
-				subtitle="Africa's highest-reviewed properties, loved by travellers"
+                title='Recommended'
+				titleHighlight='For You'
+            subtitle="Curated experiences matching your travel style and interests"
 				filters={toursFilters}
 				items={mockTours}
-				itemType='stays'
+				itemType='tours'
 			/>
 
         {/* CTA */}
         <NewsletterSignup />
 
-        {/* Top Rated Vehicles: Reusable */}
+        {/* Tours You Might Like: Reusable */}
         <SmartCarousel
-				title='Top Rated'
-				titleHighlight='Stays'
-				subtitle="Africa's highest-reviewed properties, loved by travellers"
+				title='Tours'
+            titleHighlight='You Might Like'
+            subtitle="More adventures waiting for you across the African continent"
 				filters={toursFilters}
 				items={mockTours}
-				itemType='stays'
+				itemType='tours'
 			/>
 
     </>)
